@@ -40,12 +40,15 @@ import javafx.util.Duration;
 // configure and node and generate a animation.
 public interface Animations {
 
+    
+    public Duration ANIMATION_DURATION = new Duration(300);
+    
     public static Duration getAnimationDuration() {
-        return Animations.getAnimationDuration();
+        return ANIMATION_DURATION;
     }
 
     public static double getAnimationDurationAsDouble() {
-        return Animations.getAnimationDurationAsDouble();
+        return ANIMATION_DURATION.toMillis();
     }
 
     /**
