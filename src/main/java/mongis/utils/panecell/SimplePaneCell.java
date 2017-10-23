@@ -44,7 +44,7 @@ public class SimplePaneCell<T> implements PaneCell<T> {
     private Callback<T, String> titleFactory = (s) -> "No name";
     private FailableCallback<T, Image> imageFactory = (i) -> null;
     private T item;
-    private BooleanProperty booleanProperty = new SimpleBooleanProperty();
+    private BooleanProperty selectedProperty = new SimpleBooleanProperty();
     private BooleanProperty onScreenProperty = new SimpleBooleanProperty();
 
     private Consumer<DataClickEvent<T>> onClickEvent;
@@ -76,7 +76,7 @@ public class SimplePaneCell<T> implements PaneCell<T> {
 
     @Override
     public BooleanProperty selectedProperty() {
-        return selectedProperty();
+        return selectedProperty;
     }
 
     private void onMouseClicked(MouseEvent event) {
