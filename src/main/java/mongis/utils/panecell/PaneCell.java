@@ -38,7 +38,7 @@ public interface PaneCell<T> {
     public BooleanProperty onScreenProperty();
  
     
-    void setOnDataClick(Consumer<DataClickEvent<T>> onSimpleClick);
+    PaneCell<T> setOnDataClick(Consumer<DataClickEvent<T>> onSimpleClick);
     
  
     

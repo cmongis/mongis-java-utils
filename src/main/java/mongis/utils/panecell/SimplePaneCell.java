@@ -108,8 +108,9 @@ public class SimplePaneCell<T> implements PaneCell<T> {
         return onScreenProperty;
     }
 
-    public void setOnDataClick(Consumer<DataClickEvent<T>> onSimpleClick) {
+    public SimplePaneCell<T> setOnDataClick(Consumer<DataClickEvent<T>> onSimpleClick) {
         this.onClickEvent = onSimpleClick;
+        return this;
     }
 
 }

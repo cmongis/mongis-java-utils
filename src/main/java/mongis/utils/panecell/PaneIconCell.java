@@ -244,8 +244,9 @@ public class PaneIconCell<T> extends BorderPane implements PaneCell<T> {
 
     }
 
-    public void setOnDataClick(Consumer<DataClickEvent<T>> onSimpleClick) {
+    public PaneIconCell<T> setOnDataClick(Consumer<DataClickEvent<T>> onSimpleClick) {
         this.onClickEvent = onSimpleClick;
+        return this;
     }
 
     public void onItemChanged(Observable obs, T oldItem, T newItem) {
