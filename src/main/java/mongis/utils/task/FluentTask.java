@@ -79,9 +79,9 @@ public class FluentTask<INPUT, OUTPUT> extends Task<OUTPUT> implements ProgressH
     private ExecutorService executor = null;
 
     private static ExecutorService EXECUTOR = null;
-    
+
     private static ExecutorService QUEUE = Executors.newFixedThreadPool(1);
-    
+
     private static Logger LOGGER = Logger.getLogger(FluentTask.class.getName());
 
     private double total = 1.0;
@@ -89,9 +89,6 @@ public class FluentTask<INPUT, OUTPUT> extends Task<OUTPUT> implements ProgressH
 
     private long elapsed = 0;
 
-    
-    
-    
     public FluentTask() {
         super();
 
@@ -115,8 +112,16 @@ public class FluentTask<INPUT, OUTPUT> extends Task<OUTPUT> implements ProgressH
     }
 
     public FluentTask<INPUT, OUTPUT> setName(String name) {
-        updateTitle(name);
-        updateMessage(name);
+        try {
+            updateTitle(name);
+        } catch (java.lang.IllegalStateException e) {
+            LOGGER.log(Level.WARNING, "Could not set the name. Probably out of the FX Application Platform", e);
+        }
+        try {
+            updateMessage(name);
+        } catch (java.lang.IllegalStateException e) {
+            LOGGER.log(Level.WARNING, "Could not set the message. Probably out of the FX Application Platform", e);
+        }
         return this;
     }
 
@@ -154,8 +159,6 @@ public class FluentTask<INPUT, OUTPUT> extends Task<OUTPUT> implements ProgressH
         return this;
     }
 
-    
-    
     public FluentTask<INPUT, OUTPUT> call(FailableCallable<OUTPUT> callable) {
         this.callable = callable;
         return this;
@@ -247,8 +250,8 @@ public class FluentTask<INPUT, OUTPUT> extends Task<OUTPUT> implements ProgressH
         Platform.runLater(this);
         return this;
     }
-    
-    public FluentTask<INPUT,OUTPUT> startInNewThread() {
+
+    public FluentTask<INPUT, OUTPUT> startInNewThread() {
         new Thread(this).start();
         return this;
     }
@@ -263,11 +266,9 @@ public class FluentTask<INPUT, OUTPUT> extends Task<OUTPUT> implements ProgressH
 
         getLogger().fine(String.format("%s '%s' executed in %d", getClass().getSimpleName(), getTitle(), elapsed));
         super.succeeded();
-        for(Consumer<OUTPUT> handler : onSuccess) {
+        for (Consumer<OUTPUT> handler : onSuccess) {
             handler.accept(getValue());
         }
-        
-      
 
     }
 
@@ -348,11 +349,11 @@ public class FluentTask<INPUT, OUTPUT> extends Task<OUTPUT> implements ProgressH
     }
 
     public ExecutorService getExecutor() {
-        
-        if(executor == null) {
+
+        if (executor == null) {
             executor = getCommonPool();
         }
-        
+
         return executor;
     }
 
@@ -401,33 +402,29 @@ public class FluentTask<INPUT, OUTPUT> extends Task<OUTPUT> implements ProgressH
         return null;
     }
 
-  
-    
-    
     /*
         Static method linked to the Executor
-    */
-    
-    
+     */
     public static ExecutorService getCommonQueue() {
         return QUEUE;
     }
-    
+
     public static ExecutorService getCommonPool() {
-        
-        if(EXECUTOR == null) {
+
+        if (EXECUTOR == null) {
             EXECUTOR = Executors.newCachedThreadPool();
         }
-        return EXECUTOR;   
+        return EXECUTOR;
     }
+
     public static void setCommonPool(ExecutorService executorService) {
         EXECUTOR = executorService;
     }
-    
+
     public static void setDefaultLogger(Logger l) {
-       LOGGER = l;
+        LOGGER = l;
     }
-    
+
     public static Logger getLogger() {
         return LOGGER;
     }
