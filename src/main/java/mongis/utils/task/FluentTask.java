@@ -181,6 +181,7 @@ public class FluentTask<INPUT, OUTPUT> extends Task<OUTPUT> implements ProgressH
 
         // first we check if the task was cancelled BEFORE RUNNING IT
         if (isCancelled()) {
+            LOGGER.info(getTitle()  + " was cancelled.");
             return null;
         }
 
@@ -212,6 +213,7 @@ public class FluentTask<INPUT, OUTPUT> extends Task<OUTPUT> implements ProgressH
         elapsed = System.currentTimeMillis() - elapsed;
 
         if (isCancelled()) {
+            LOGGER.info(getTitle()  + " was cancelled.");
             return null;
         }
 
@@ -263,7 +265,7 @@ public class FluentTask<INPUT, OUTPUT> extends Task<OUTPUT> implements ProgressH
 
     @Override
     public void succeeded() {
-
+        
         getLogger().fine(String.format("%s '%s' executed in %d", getClass().getSimpleName(), getTitle(), elapsed));
         super.succeeded();
         for (Consumer<OUTPUT> handler : onSuccess) {
